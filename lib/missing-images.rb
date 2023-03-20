@@ -13,7 +13,8 @@ BrokenImages = Struct.new('BrokenImages', :url, :broken_links, :screenshot)
 
 class MissingImages
   def initialize()
-    @driver = Selenium::WebDriver.for :firefox
+    options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+    @driver = Selenium::WebDriver.for(:firefox, options: options)
     @driver.manage.timeouts.implicit_wait = 10
   end
 
