@@ -11,6 +11,8 @@ ImageElement = Struct.new('ImageElement', :element, :links, :broken_links)
 
 BrokenImages = Struct.new('BrokenImages', :url, :broken_links, :screenshot)
 
+SCREENCAP_FOLDER_PATH = './report/screenshots'
+
 class MissingImages
   def initialize()
     options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
@@ -31,14 +33,15 @@ class MissingImages
 
     highlight_broken_images(elements_with_broken_links)
 
-    screenshot_path = "./report/screenshots/#{SecureRandom.uuid}.png"
+    screenshot_filename = "#{SecureRandom.uuid}.png"
+    screenshot_path = SCREENCAP_FOLDER_PATH + "/#{screenshot_filename}"
     @driver.save_screenshot(screenshot_path, full_page: true)
 
     @driver.close
 
     broken_links = elements_with_broken_links.map { |el| el.broken_links }.flatten
 
-    return BrokenImages.new(url, broken_links, screenshot_path)
+    return BrokenImages.new(url, broken_links, screenshot_filename)
   end
 
   def find_broken_link_elements()
