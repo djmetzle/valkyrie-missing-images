@@ -2,7 +2,7 @@
 
 This provides a utility to curate the missing/deleted images in Valkyrie.
 
-## Report
+## [Report.md](report/report.md)
 
 In order to browse the missing images report, see: [report.md](report/report.md)
 
