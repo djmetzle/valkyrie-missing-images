@@ -14,6 +14,8 @@ api = ValkyrieAPI.new
 
 post_links = api.fetch_post_list()
 
+#puts JSON.dump(post_links.map(&:to_h))
+
 FileUtils.mkdir_p './report/screenshots'
 FileUtils.mkdir_p './report/posts'
 
