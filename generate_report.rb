@@ -24,8 +24,7 @@ def build_missing(post, missing)
   return PostWithMissingImages.new(post, missing)
 end
 
-# DEBUG `last(2)`
-posts_with_missing_images = post_links.last(2).map do |post|
+posts_with_missing_images = post_links.map do |post|
   missing_images = MissingImages.new
   missing = missing_images.find_missing_images(post.link)
   build_missing(post, missing)
