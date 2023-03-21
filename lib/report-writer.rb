@@ -19,7 +19,7 @@ class ReportWriter
       h1 = "\# Valkyrie Missing Images Report\n\n"
       post_list = ""
       @posts.each do |post|
-        post_list += "- #{post.post.id} - #{post.post.title}\n"
+        post_list += "- #{post.post.id} - [#{post.post.title}](post-#{post.post.id}.md)\n"
       end
       index_file.write h1 + post_list + "\n"
     end

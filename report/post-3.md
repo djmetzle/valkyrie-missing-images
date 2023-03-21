@@ -3,4 +3,4 @@
 - https://valkyrie.cdn.ifixit.com/media/2009/02/05150543/macbook-pro-17-unibody-disassembled-600x400.jpeg
 - https://valkyrie.cdn.ifixit.com/media/2009/06/05150759/macbook-pro-13-unibody-teardown-600x400.jpeg
 
-![screencap](screenshots/c71b17f5-6aa9-47b3-a25f-80fdece1ff2a.png)
+![screencap](screenshots/25dd014a-fb57-49c9-a6a1-7bf91489a55a.png)

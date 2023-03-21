@@ -4,4 +4,4 @@
 - https://valkyrie.cdn.ifixit.com/media/2009/06/05150759/macbook-pro-13-unibody-teardown-600x400.jpeg
 - https://valkyrie.cdn.ifixit.com/media/2009/02/05150542/problems-with-mb-unibody-and-mbp-unibody-headphone-jacks-600x400.jpeg
 
-![screencap](screenshots/aef906d1-100a-47bb-944c-bbf3643cdd08.png)
+![screencap](screenshots/3eb9ce6e-2759-432d-b89a-e2db2e22e3b0.png)
