@@ -25,10 +25,14 @@ def build_missing(post, missing)
 end
 
 posts_with_missing_images = post_links.map do |post|
-  missing_images = MissingImages.new
-  missing = missing_images.find_missing_images(post.link)
-  next if missing.nil?
-  build_missing(post, missing)
+  begin
+    missing_images = MissingImages.new
+    missing = missing_images.find_missing_images(post.link)
+    next if missing.nil?
+    build_missing(post, missing)
+  rescue Exception
+    nil
+  end
 end.compact
 
 writer = ReportWriter.new(posts_with_missing_images)

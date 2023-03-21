@@ -47,6 +47,8 @@ class MissingImages
   def find_broken_link_elements()
     image_elements = find_all_images()
 
+    return [] if image_elements.nil?
+
     image_elements.each do |element|
       find_broken_links(element)
     end
@@ -66,6 +68,7 @@ class MissingImages
 
   def find_all_images()
     wp_content = find_wp_shadow_content()
+    return nil if wp_content.nil?
     image_elements = wp_content.find_elements(:tag_name, "img")
     return image_elements.map do |element|
       ImageElement.new(element, find_image_links(element), [])
@@ -109,7 +112,11 @@ class MissingImages
   end
 
   def find_wp_shadow_content()
-    shadow_wrapper_element = @driver.find_element(tag_name: 'shadow-wrapper')
+    begin
+      shadow_wrapper_element = @driver.find_element(tag_name: 'shadow-wrapper')
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      return nil
+    end
     script = 'return arguments[0].shadowRoot.children'
     shadow_children = @driver.execute_script(script, shadow_wrapper_element)
     wp_content = shadow_children[0]
