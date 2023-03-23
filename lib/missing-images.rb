@@ -15,7 +15,8 @@ SCREENCAP_FOLDER_PATH = './report/screenshots'
 
 class MissingImages
   def initialize()
-    options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+    options = Selenium::WebDriver::Firefox::Options.new(args: [])
+  #  options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
     @driver = Selenium::WebDriver.for(:firefox, options: options)
     @driver.manage.timeouts.implicit_wait = 10
   end

@@ -2,38 +2,22 @@
 
 require 'fileutils'
 
-require_relative "./lib/missing-images"
 require_relative "./lib/valkyrie-api"
-require_relative "./lib/report-writer"
+require_relative "./lib/crawler"
 
 require 'json'
 
 PostWithMissingImages = Struct.new('PostWithMissingImages', :post, :missing)
 
 api = ValkyrieAPI.new
+crawler = Crawler.new
 
 post_links = api.fetch_post_list()
+puts "Fetched #{post_links.size} posts"
 
-#puts JSON.dump(post_links.map(&:to_h))
-
-FileUtils.mkdir_p './report/screenshots'
-FileUtils.mkdir_p './report/posts'
-
-def build_missing(post, missing)
-  return nil if missing.broken_links.empty?
-  return PostWithMissingImages.new(post, missing)
+post_links.each do |post|
+  broken_links = crawler.crawl_for_broken_image_links(post.link)
+  next if broken_links.empty?
+  post_with_broken_links = PostWithMissingImages.new(post, broken_links)
+  pp post_with_broken_links
 end
-
-posts_with_missing_images = post_links.map do |post|
-  begin
-    missing_images = MissingImages.new
-    missing = missing_images.find_missing_images(post.link)
-    next if missing.nil?
-    build_missing(post, missing)
-  rescue Exception
-    nil
-  end
-end.compact
-
-writer = ReportWriter.new(posts_with_missing_images)
-writer.generate_report()

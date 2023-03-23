@@ -14,7 +14,7 @@ PAGE_FIELDS = 'id,title,link'
 
 PostLink = Struct.new('PostLink', :id, :link, :title)
 PageLink = Struct.new('PageLink', :id, :link, :title)
-MediaLink = Struct.new('PageLink', :id, :link, :title)
+MediaLink = Struct.new('MediaLink', :id, :link, :title)
 
 class ValkyrieAPI
   def initialize()
@@ -28,7 +28,8 @@ class ValkyrieAPI
   end
 
   def fetch_post_list()
-    i = 1
+    #i = 1
+    i = 10 #DEBUG
     all_posts = []
     while true
        posts = get_page(i, POSTS_ENDPOINT)
@@ -36,6 +37,7 @@ class ValkyrieAPI
        break if posts.nil?
        STDERR.puts "Fetched #{posts.size} posts from API"
        all_posts.push(*posts)
+      break
     end
     return all_posts.map { |post|
         to_struct(post)
