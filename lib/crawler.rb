@@ -9,7 +9,9 @@ class Crawler
   end
 
   def crawl_for_broken_image_links(link)
+    STDERR.puts "Crawling #{link}"
     doc = fetch_document(link)
+    return [] if doc.nil?
     image_elements = doc.css('img') 
     links = image_elements.map { |image| find_links(image) }.flatten.compact
     cdn_links = cdn_only_links(links)
@@ -18,8 +20,12 @@ class Crawler
   end
 
   def fetch_document(link)
-    doc = Nokogiri::HTML(URI.open(link))
-    return doc
+    begin
+      doc = Nokogiri::HTML(URI.open(link))
+      return doc
+    rescue OpenURI::HTTPError
+      return nil
+    end
   end
 
   def cdn_only_links(links)

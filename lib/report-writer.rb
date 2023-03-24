@@ -28,11 +28,10 @@ class ReportWriter
   def write_post(post)
     File.open("report/post-#{post.post.id}.md", "w") do |post_file|
       h1 = "\# Post #{post.post.id} - [#{post.post.title}](#{post.post.link})\n\n"
-      missing_images = post.missing.broken_links.map do |broken_link|
+      missing_images = post.missing.map do |broken_link|
         "- #{broken_link}\n"
       end.join("")
-      screencap_link = "![screencap](#{SCREENCAP_FOLDER}/#{post.missing.screenshot})\n"
-      post_file.write h1 + missing_images + "\n" + screencap_link
+      post_file.write h1 + missing_images
     end
   end
 end
