@@ -4,6 +4,9 @@ This provides a utility to curate the missing/deleted images in Valkyrie.
 
 ## [Report.md](report/report.md)
 
+## [Media-Report.md](report/media-report.md)
+For media item specific report, with image links embeded.
+
 In order to browse the missing images report, see: [report.md](report/report.md)
 
 ## Updating the report
