@@ -11,10 +11,11 @@ PER_PAGE = 100
 
 POST_FIELDS = 'id,title,link'
 PAGE_FIELDS = 'id,title,link'
+MEDIA_FIELDS = 'id,title,source_url,media_details'
 
 PostLink = Struct.new('PostLink', :id, :link, :title)
 PageLink = Struct.new('PageLink', :id, :link, :title)
-MediaLink = Struct.new('MediaLink', :id, :link, :title)
+MediaLink = Struct.new('MediaLink', :id, :title, :urls)
 
 class ValkyrieAPI
   def initialize()
@@ -31,7 +32,7 @@ class ValkyrieAPI
     i = 1
     all_posts = []
     while true
-       posts = get_page(i, POSTS_ENDPOINT)
+       posts = get_page(i, POSTS_ENDPOINT, POST_FIELDS)
        i += 1
        break if posts.nil?
        STDERR.puts "Fetched #{posts.size} posts from API"
@@ -48,7 +49,7 @@ class ValkyrieAPI
     i = 1
     all_pages = []
     while true
-       pages = get_page(i, PAGES_ENDPOINT)
+       pages = get_page(i, PAGES_ENDPOINT, POST_FIELDS)
        i += 1
        break if pages.nil?
        STDERR.puts "Fetched #{pages.size} pages from API"
@@ -64,7 +65,7 @@ class ValkyrieAPI
     i = 1
     all_medias = []
     while true
-       medias = get_page(i, MEDIA_ENDPOINT)
+       medias = get_page(i, MEDIA_ENDPOINT, MEDIA_FIELDS)
        i += 1
        break if medias.nil?
        STDERR.puts "Fetched #{medias.size} medias from API"
@@ -76,11 +77,11 @@ class ValkyrieAPI
 
   end
 
-  def get_page(n, endpoint)
+  def get_page(n, endpoint, fields)
      params = {
         :page => n,
         :per_page => PER_PAGE,
-        :_fields => POST_FIELDS,
+        :_fields => fields,
      }
      return fetch_endpoint(endpoint, params)
   end
@@ -119,8 +120,22 @@ class ValkyrieAPI
   end
 
   def to_media_struct(media)
-    media_struct = MediaLink.new(media["id"], media["link"], media["title"]["rendered"])
+    urls = urls_from_media(media)
+    media_struct = MediaLink.new(media["id"], media["title"]["rendered"], urls)
     return media_struct
+  end
+
+  def urls_from_media(media)
+    urls = []
+    urls.push(media["source_url"])
+
+    sizes = media["media_details"]["sizes"]
+    return urls if sizes.nil? || sizes.empty?
+
+    size_urls = sizes.map { |_,size| size["source_url"] }
+    urls.push(*size_urls)
+
+    return urls.uniq
   end
 
   def is_valkyrie_post?(link)
