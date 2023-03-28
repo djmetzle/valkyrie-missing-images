@@ -25,4 +25,5 @@ end
 puts "Found #{media_with_broken_links.size} media items with broken URLs"
 
 writer = MediaReportWriter.new(media_with_broken_links)
+writer.check_prefixes
 writer.generate_report()
