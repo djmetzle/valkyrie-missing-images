@@ -63,7 +63,7 @@ class MediaReportWriter
     if @stray_prefixes.key?(prefix)
       all_stray_urls = @stray_prefixes[prefix]
       strays = all_stray_urls - media.urls
-      return "\n## Strays\n" + strays.map { |stray| "- ![stray]#{stray}" }.join("\n")
+      return "\n## Strays\n" + strays.map { |stray| "- ![stray](#{stray})" }.join("\n")
     end
     return ""
   end
